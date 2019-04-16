@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.raky.cms.entity.Users"> 
+    <!-- 返回结果对象属性与表字段映射 -->
+	<resultMap type="Users" id="resultListUsers">
+        <id column="id" property="id" />
+        <result column="dept_id" property="dept_id" />
+        <result column="user_name" property="user_name" />
+        <result column="real_name" property="real_name" />
+        <result column="user_type" property="user_type" />        
+        <result column="pass_word" property="pass_word" />
+        
+        <result column="sex" property="sex" />
+        <result column="age" property="age" />
+        <result column="birthday" property="birthday" />
+        <result column="positions" property="positions" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+      
+        
+        <result column="login_count" property="login_count" />
+        <result column="last_login_ip" property="last_login_ip" />   
+        <result column="last_login_time" property="last_login_time" />
+   		<result column="create_time" property="create_time" />
+        <result column="locked" property="locked" />
+        <result column="deleted" property="deleted" />        
+        <result column="priority" property="priority" />       
+	</resultMap>
+	
+	<sql id="sf-users">
+		  <where>
+	        <if test="null != id"> and a.id = #{id:INTEGER}</if>	
+	        <if test="null != user_name and '' != user_name"> and a.user_name = #{user_name:VARCHAR}</if>	
+			<if test="null != real_name and '' != real_name"> and a.real_name = #{real_name:VARCHAR}</if>
+			<if test="null != pass_word and '' != pass_word"> and a.pass_word = #{pass_word:VARCHAR}</if> 
+    		<if test="null != sex"> and a.sex = #{sex:INTEGER}</if>
+    		<if test="null != age"> and a.age = #{age:INTEGER}</if>
+    		<if test="null != birthday"> and a.birthday = #{birthday:DATE}</if>
+    		<if test="null != mobile and '' != mobile"> and a.mobile = #{mobile:VARCHAR}</if>     
+    		<if test="null != deleted"> and a.deleted = #{deleted:INTEGER}</if>
+    		<!-- 
+			<if test="null != map.user_name_like and '' != map.user_name_like"> and name like concat('%',#{map.user_name_like:VARCHAR},'%')</if>
+			
+			<if test="null != map.start_birthday and '' != map.start_birthday">
+				a.birthday >= str_to_date(#{map.start_birthday:VARCHAR}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="null != map.end_birthday and '' != map.end_birthday">
+				a.birthday >= str_to_date(#{map.end_birthday:VARCHAR}, '%Y-%m-%d %H:%i:%s')
+			</if>
+			 -->		
+    	</where>
+	
+	</sql>
+	
+	<!-- 查询所有记录[分页] -->
+	<select id="getPaginatedList" parameterType="Users" resultMap="resultListUsers">
+        select * from users a <include refid="sf-users" /> order by priority desc
+        <if test="null != firstRow and null != rowCount "> limit #{firstRow:INTEGER}, #{rowCount:INTEGER}</if>
+    </select>
+       
+	<!-- 查询所有记录[分页] -->
+	<select id="getCount" parameterType="Users" resultType="INTEGER">
+        select count(*) from users a <include refid="sf-users" />
+        <if test="null != firstRow and null != rowCount "> limit #{firstRow:INTEGER}, #{rowCount:INTEGER}</if>
+    </select> 
+         
+	<!-- 查询所有记录 -->
+	<select id="getList" parameterType="Users" resultMap="resultListUsers">
+        select * from users a <include refid="sf-users" /> order by priority desc
+    </select>     
+     
+    <!-- 根据id查询得到一个Users对象     -->
+    <select id="getOne" parameterType="Users" resultType="Users">
+        select a.* from users a <include refid="sf-users" />
+    </select>    
+    <!-- 插入数据库表数据     -->
+    <insert id="insert" parameterType="Users">  
+    	<![CDATA[insert into users]]>
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="null != id">ID,</if>
+			<if test="null != dept_id">DEPT_ID,</if>
+			<if test="null != user_name">USER_NAME,</if>
+			<if test="null != real_name">REAL_NAME,</if>
+			<if test="null != user_type">USER_TYPE,</if>
+			
+			<if test="null != pass_word">PASS_WORD,</if>
+			<if test="null != sex">SEX,</if>
+			<if test="null != age">AGE,</if>
+			<if test="null != birthday">BIRTHDAY,</if>
+			
+			<if test="null != positions">POSITIONS,</if>			
+			<if test="null != mobile">MOBILE,</if>			
+			<if test="null != email">EMAIL,</if>
+			
+			<if test="null != login_count">LOGIN_COUNT,</if>	
+			<if test="null != last_login_ip">LAST_LOGIN_IP,</if>
+			<if test="null != last_login_time">LAST_LOGIN_TIME,</if>
+								
+			<if test="null != create_time">CREATE_TIME,</if>
+			<if test="null != deleted">DELETED,</if>
+			<if test="null != locked">LOCKED,</if>
+			<if test="null != priority">PRIORITY,</if>
+		</trim>
+		<![CDATA[ values ]]>
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="null != id">#{id:BIGINT},</if>
+			<if test="null != dept_id">#{dept_id:BIGINT},</if>
+			<if test="null != user_name">#{user_name:VARCHAR},</if>
+			<if test="null != real_name">#{real_name:VARCHAR},</if>
+			<if test="null != user_type">#{user_type:INTEGER},</if>			
+			
+			<if test="null != pass_word">#{pass_word:VARCHAR},</if>			
+			<if test="null != sex">#{sex:INTEGER},</if>
+			<if test="null != age">#{age:INTEGER},</if>
+			<if test="null != birthday">#{birthday:TIMESTAMP},</if>	
+			
+			<if test="null != positions">#{positions:VARCHAR},</if>		
+			<if test="null != mobile">#{mobile:VARCHAR},</if>
+			<if test="null != email">#{email:VARCHAR},</if>	
+								
+			<if test="null != login_count">#{login_count:INTEGER},</if>
+			<if test="null != last_login_ip">#{last_login_ip:VARCHAR},</if>
+			<if test="null != last_login_time">#{last_login_time:TIMESTAMP},</if>
+									
+			<if test="null != create_time">#{create_time:TIMESTAMP},</if>
+			<if test="null != deleted">#{deleted:INTEGER},</if>			
+			<if test="null != locked">#{locked:INTEGER},</if>
+			<if test="null != priority">#{priority:INTEGER},</if>
+
+		</trim>
+    	
+    </insert>     
+    <!-- 更新数据库表数据 -->
+    <update id="update" parameterType="Users">    
+    	update users a
+		<set>
+			<if test="null != dept_id">a.DEPT_ID = #{dept_id:BIGINT},</if>
+			<if test="null != user_name">a.USER_NAME = #{user_name:VARCHAR},</if>
+			<if test="null != real_name">a.REAL_NAME = #{real_name:VARCHAR},</if>
+			<if test="null != user_type">a.USER_TYPE = #{user_type:INTEGER},</if>
+			<if test="null != pass_word">a.PASS_WORD = #{pass_word:VARCHAR},</if>
+			<if test="null != sex">a.SEX = #{sex:INTEGER},</if>			
+			<if test="null != age">a.AGE = #{age:INTEGER},</if>
+			
+			<if test="null != birthday">a.BIRTHDAY = #{birthday:TIMESTAMP},</if>			
+			<if test="null != positions">a.POSITIONS = #{positions:VARCHAR},</if>		
+			<if test="null != mobile">a.MOBILE = #{mobile:VARCHAR},</if>
+			<if test="null != email">a.EMAIL = #{email:VARCHAR},</if>			
+			<if test="null != login_count">a.LOGIN_COUNT = #{login_count:INTEGER},</if>
+			<if test="null != last_login_ip">a.LAST_LOGIN_IP = #{last_login_ip:VARCHAR},</if>
+			<if test="null != last_login_time">a.LAST_LOGIN_TIME = #{last_login_time:TIMESTAMP},</if>
+			
+			<if test="null != create_time">a.CREATE_TIME = #{create_time:TIMESTAMP},</if>
+			<if test="null != deleted">a.DELETED = #{deleted:INTEGER},</if>			
+			<if test="null != locked">a.LOCKED = #{locked:INTEGER},</if>
+			<if test="null != priority">a.PRIORITY = #{priority:INTEGER},</if>
+
+		</set>
+		where a.ID = #{id:BIGINT}
+    </update>
+	<!-- 根据id删除数据库表数据 -->
+	<delete id="delete" parameterType="Users">
+       <!--  delete from users where id=#{id:BIGINT} -->
+        update users set deleted = 1 where id=#{id:BIGINT}
+    </delete>
+</mapper>

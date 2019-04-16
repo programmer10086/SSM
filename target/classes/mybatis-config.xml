@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 
+	 <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+-->
+<!--   
+    <typeAliases>   
+      <typeAlias alias="Log" type="com.raky.cms.entity.Log"/>
+      <typeAlias alias="Users" type="com.raky.cms.entity.Users"/>
+      <typeAlias alias="Types" type="com.raky.cms.entity.Types"/>
+      <typeAlias alias="Role" type="com.raky.cms.entity.Role"/>
+      <typeAlias alias="Teacher" type="com.raky.cms.entity.Teacher"/>
+      <typeAlias alias="Score" type="com.raky.cms.entity.Score"/>
+      <typeAlias alias="Attachment" type="com.raky.cms.entity.Attachment"/>
+      <typeAlias alias="Student" type="com.raky.cms.entity.Student"/>
+	  <typeAlias alias="Course" type="com.raky.cms.entity.Course"/>	
+      <typeAlias alias="Classes" type="com.raky.cms.entity.Classes"/>
+  	</typeAliases>
+-->
+</configuration>
